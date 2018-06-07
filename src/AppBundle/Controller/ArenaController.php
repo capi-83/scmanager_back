@@ -133,10 +133,36 @@ class ArenaController extends Controller
 	 */
 	public function putArenaAction(Request $request)
 	{
+		return $this->updateArena($request, true);
+	}
+
+	/**
+	 * @param $request Request
+	 *
+	 * @Rest\View()
+	 * @Rest\Patch("/arenas/{id}")
+	 *
+	 * @throws \Exception
+	 *
+	 * @return arena|form
+	 */
+	public function patchArenaAction(Request $request)
+	{
+		return $this->updateArena($request, false);
+	}
+
+	/**
+	 * @param Request $request
+	 * @param $clearMissing
+	 * @return arena|Form
+	 * @throws \Doctrine\ORM\OptimisticLockException
+	 */
+	private function updateArena(Request $request, $clearMissing)
+	{
 		/* @var $arena Arena */
 		$arena = $this->get('doctrine.orm.entity_manager')
 			->getRepository('AppBundle:Arena')
-			->find($request->get('id')); // L'identifiant en tant que paramètre n'est plus nécessaire
+			->find($request->get('id'));
 
 		if (empty($arena)) {
 			return new JsonResponse(['message' => 'Arena not found'], Response::HTTP_NOT_FOUND);
@@ -144,11 +170,13 @@ class ArenaController extends Controller
 
 		$form = $this->createForm(ArenaType::class, $arena);
 
-		$form->submit($request->request->all());
+		// Le paramètre false dit à Symfony de garder les valeurs dans notre
+		// entité si l'utilisateur n'en fournit pas une dans sa requête
+		$form->submit($request->request->all(), $clearMissing);
 
 		if ($form->isValid()) {
 			$em = $this->get('doctrine.orm.entity_manager');
-			$em->merge($arena);
+			$em->persist($arena);
 			$em->flush();
 			return $arena;
 		} else {
