@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
+use \FOS\RestBundle\View\View as view;
 
 use AppBundle\Form\Type\UserType;
 use AppBundle\Entity\User;
@@ -44,7 +45,7 @@ class UserController extends Controller
 			->find($id);
 
 		if (empty($user)) {
-			return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+			return View::create(['message' => 'Place not found'], Response::HTTP_NOT_FOUND);
 		}
 
 		return $user;
@@ -162,7 +163,7 @@ class UserController extends Controller
 			->find($request->get('id'));
 
 		if (empty($user)) {
-			return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+			return View::create(['message' => 'Place not found'], Response::HTTP_NOT_FOUND);
 		}
 
 		$form = $this->createForm(UserType::class, $user);

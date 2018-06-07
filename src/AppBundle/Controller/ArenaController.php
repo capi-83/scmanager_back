@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
+use \FOS\RestBundle\View\View as view;
 
 
 use AppBundle\Form\Type\ArenaType;
@@ -43,7 +44,7 @@ class ArenaController extends Controller
 			->find($id);
 
 		if (empty($arena)) {
-			return new JsonResponse(['message' => 'Arena not found'], Response::HTTP_NOT_FOUND);
+			return View::create(['message' => 'Arena not found'], Response::HTTP_NOT_FOUND);
 		}
 
 		return $arena;
@@ -165,7 +166,7 @@ class ArenaController extends Controller
 			->find($request->get('id'));
 
 		if (empty($arena)) {
-			return new JsonResponse(['message' => 'Arena not found'], Response::HTTP_NOT_FOUND);
+			return View::create(['message' => 'Arena not found'], Response::HTTP_NOT_FOUND);
 		}
 
 		$form = $this->createForm(ArenaType::class, $arena);
