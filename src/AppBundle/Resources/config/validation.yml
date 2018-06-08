@@ -22,3 +22,14 @@ AppBundle\Entity\User:
         email:
             - NotBlank: ~
             - Email: ~
+
+AppBundle\Entity\SportCourt:
+    properties:
+        type:
+            - NotNull: ~
+            - Choice:
+                choices: [basketball, football]
+        nbrSeats:
+            - Type: integer
+            - GreaterThanOrEqual:
+                value: 0

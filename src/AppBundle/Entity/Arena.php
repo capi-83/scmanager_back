@@ -9,6 +9,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity()
@@ -43,11 +44,11 @@ class Arena
 	 * @ORM\OneToMany(targetEntity="SportCourt", mappedBy="arena")
 	 * @var SportCourts[]
 	 */
-	protected $sportCours;
+	protected $sportCourts;
 
 	public function __construct()
 	{
-		$this->SportCourts = new ArrayCollection();
+		$this->sportCourts = new ArrayCollection();
 	}
 
 	public function getId()
@@ -86,17 +87,17 @@ class Arena
 	/**
 	 * @return SportCourts[]
 	 */
-	public function getSportCours()
+	public function getSportCourts()
 	{
-		return $this->sportCours;
+		return $this->sportCourts;
 	}
 
 	/**
-	 * @param SportCourts[] $sportCours
+	 * @param SportCourts[] $sportCourts
 	 */
-	public function setSportCours($sportCours)
+	public function setSportCourts($sportCourts)
 	{
-		$this->sportCours = $sportCours;
+		$this->sportCourts = $sportCourts;
 	}
 
 }

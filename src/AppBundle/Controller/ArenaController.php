@@ -31,7 +31,7 @@ class ArenaController extends Controller
 	 * @param $id int
 	 * @param $request Request
 	 *
-	 * @Rest\View()
+	 * @Rest\View(serializerGroups={"arena"})
 	 * @Rest\Get("/arenas/{id}")
 	 *
 	 * @return arena
@@ -55,7 +55,7 @@ class ArenaController extends Controller
 	 *
 	 * @param $request Request
 	 *
-	 * @Rest\View()
+	 * @Rest\View(serializerGroups={"arena"})
 	 * @Rest\Get("/arenas")
 	 *
 	 * @return array arena
@@ -74,7 +74,7 @@ class ArenaController extends Controller
 	 *
 	 * @param $request Request
 	 *
-	 * @Rest\View(statusCode=Response::HTTP_CREATED)
+	 * @Rest\View(statusCode=Response::HTTP_CREATED,serializerGroups={"arena"})
 	 * @Rest\Post("/arenas")
 	 *
 	 * @throws \Exception
@@ -102,7 +102,7 @@ class ArenaController extends Controller
 	 *
 	 * @param $request Request
 	 *
-	 * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
+	 * @Rest\View(statusCode=Response::HTTP_NO_CONTENT,serializerGroups={"arena"})
 	 * @Rest\Delete("/arenas/{id}")
 	 *
 	 * @throws \Exception
@@ -116,7 +116,11 @@ class ArenaController extends Controller
 		$arena = $em->getRepository('AppBundle:Arena')
 			->find($request->get('id'));
 
-		if($arena) {
+		if(! $arena) return;
+		else {
+			foreach ($arena->getSportCourts() as $sportCourt) {
+				$em->remove($sportCourt);
+			}
 			$em->remove($arena);
 			$em->flush();
 		}
@@ -125,7 +129,7 @@ class ArenaController extends Controller
 	/**
 	 * @param $request Request
 	 *
-	 * @Rest\View()
+	 * @Rest\View(serializerGroups={"arena"})
 	 * @Rest\Put("/arenas/{id}")
 	 *
 	 * @throws \Exception
@@ -140,7 +144,7 @@ class ArenaController extends Controller
 	/**
 	 * @param $request Request
 	 *
-	 * @Rest\View()
+	 * @Rest\View(serializerGroups={"arena"})
 	 * @Rest\Patch("/arenas/{id}")
 	 *
 	 * @throws \Exception

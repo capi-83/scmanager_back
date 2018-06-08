@@ -6,6 +6,10 @@ arenas:
     type:     rest
     resource: AppBundle\Controller\ArenaController
 
+sportCourts:
+    type:     rest
+    resource: AppBundle\Controller\Arena\SportCourtController
+
 users:
     type:     rest
     resource: AppBundle\Controller\UserController
