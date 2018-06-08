@@ -39,6 +39,17 @@ class Arena
 	 */
 	protected $address;
 
+	/**
+	 * @ORM\OneToMany(targetEntity="SportCourt", mappedBy="arena")
+	 * @var SportCourts[]
+	 */
+	protected $sportCours;
+
+	public function __construct()
+	{
+		$this->SportCourts = new ArrayCollection();
+	}
+
 	public function getId()
 	{
 		return $this->id;
@@ -71,4 +82,21 @@ class Arena
 		$this->address = $address;
 		return $this;
 	}
+
+	/**
+	 * @return SportCourts[]
+	 */
+	public function getSportCours()
+	{
+		return $this->sportCours;
+	}
+
+	/**
+	 * @param SportCourts[] $sportCours
+	 */
+	public function setSportCours($sportCours)
+	{
+		$this->sportCours = $sportCours;
+	}
+
 }
