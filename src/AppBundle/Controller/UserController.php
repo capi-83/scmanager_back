@@ -9,8 +9,10 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,24 +30,23 @@ use AppBundle\Entity\User;
 class UserController extends Controller
 {
 	/**
-	 * @param $id int
 	 * @param $request Request
 	 *
-	 * @Rest\View()
-	 * @Rest\Get("/users/{user_id}")
+	 * @Rest\View(serializerGroups={"userall"})
+	 * @Rest\Get("/users/{id}")
 	 *
 	 * @return user
 	 */
-	public function getUserAction($id, Request $request)
+	public function getUserAction(Request $request)
 	{
 
 		/* @var $user User */
 		$user = $this->get('doctrine.orm.entity_manager')
 			->getRepository('AppBundle:User')
-			->find($id);
+			->find($request->get('id'));
 
 		if (empty($user)) {
-			return View::create(['message' => 'Place not found'], Response::HTTP_NOT_FOUND);
+			$this->userNotFound();
 		}
 
 		return $user;
@@ -55,7 +56,7 @@ class UserController extends Controller
 	 *
 	 * @param $request Request
 	 *
-	 * @Rest\View()
+	 * @Rest\View( serializerGroups={"userall"})
 	 * @Rest\Get("/users")
 	 *
 	 * @return array users
@@ -73,7 +74,7 @@ class UserController extends Controller
 	/**
 	 * @param $request Request
 	 *
-	 * @Rest\View(statusCode=Response::HTTP_CREATED)
+	 * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"user"})
 	 * @Rest\Post("/users")
 	 *
 	 * @throws \Exception
@@ -83,11 +84,15 @@ class UserController extends Controller
 	public function postUsersAction(Request $request)
 	{
 		$user = new User();
-		$form = $this->createForm(UserType::class, $user);
+		$form = $this->createForm(UserType::class, $user, ['validation_groups'=>['Default', 'New']]);
 
 		$form->submit($request->request->all());
 
 		if ($form->isValid()) {
+			// le mot de passe en claire est encodé avant la sauvegarde
+			$encoder = $this->get('security.password_encoder');
+			$encoded = $encoder->encodePassword($user, $user->getPlainPassword());
+			$user->setPassword($encoded);
 			$em = $this->get('doctrine.orm.entity_manager');
 			$em->persist($user);
 			$em->flush();
@@ -122,7 +127,7 @@ class UserController extends Controller
 	/**
 	 * @param $request Request
 	 *
-	 * @Rest\View()
+	 * @Rest\View(serializerGroups={"user"})
 	 * @Rest\Put("/users/{id}")
 	 *
 	 * @throws \Exception
@@ -137,7 +142,7 @@ class UserController extends Controller
 	/**
 	 * @param $request Request
 	 *
-	 * @Rest\View()
+	 * @Rest\View(serializerGroups={"user"})
 	 * @Rest\Patch("/users/{id}")
 	 *
 	 * @throws \Exception
@@ -163,14 +168,27 @@ class UserController extends Controller
 			->find($request->get('id'));
 
 		if (empty($user)) {
-			return View::create(['message' => 'Place not found'], Response::HTTP_NOT_FOUND);
+			return $this->userNotFound();
 		}
 
-		$form = $this->createForm(UserType::class, $user);
+		if ($clearMissing) { // Si une mise à jour complète, le mot de passe doit être validé
+			$options = ['validation_groups'=>['Default', 'FullUpdate']];
+		} else {
+			$options = []; // Le groupe de validation par défaut de Symfony est Default
+		}
+
+		$form = $this->createForm(UserType::class, $user, $options);
 
 		$form->submit($request->request->all(), $clearMissing);
 
 		if ($form->isValid()) {
+			// Si l'utilisateur veut changer son mot de passe
+			if (!empty($user->getPlainPassword())) {
+				$encoder = $this->get('security.password_encoder');
+				$encoded = $encoder->encodePassword($user, $user->getPlainPassword());
+				$user->setPassword($encoded);
+			}
+
 			$em = $this->get('doctrine.orm.entity_manager');
 			$em->persist($user);
 			$em->flush();
@@ -178,5 +196,10 @@ class UserController extends Controller
 		} else {
 			return $form;
 		}
+	}
+
+	private function userNotFound()
+	{
+		throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('User not found');
 	}
 }

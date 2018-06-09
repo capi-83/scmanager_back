@@ -20,3 +20,27 @@ AppBundle\Entity\SportCourt:
             groups: ['arena', 'sportcourt']
         arena:
             groups: ['sportcourt']
+
+AppBundle\Entity\User:
+    attributes:
+        id:
+            groups: ['user','userall', 'auth-token']
+        firstname:
+            groups: ['user','userall', 'auth-token']
+        lastname:
+            groups: ['user','userall', 'auth-token']
+        email:
+            groups: ['user','userall', 'auth-token']
+        password:
+            groups: ['userall']
+
+AppBundle\Entity\AuthToken:
+    attributes:
+        id:
+            groups: ['auth-token']
+        value:
+            groups: ['auth-token']
+        createdAt:
+            groups: ['auth-token']
+        user:
+            groups: ['auth-token']

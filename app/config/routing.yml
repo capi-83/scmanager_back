@@ -13,3 +13,7 @@ sportCourts:
 users:
     type:     rest
     resource: AppBundle\Controller\UserController
+
+auth-tokens:
+    type:     rest
+    resource: AppBundle\Controller\AuthTokenController

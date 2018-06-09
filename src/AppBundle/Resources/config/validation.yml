@@ -9,6 +9,17 @@ AppBundle\Entity\Arena:
             - NotBlank: ~
             - Type: string
 
+AppBundle\Entity\SportCourt:
+    properties:
+        type:
+            - NotNull: ~
+            - Choice:
+                choices: [basketball, football]
+        nbrSeats:
+            - Type: integer
+            - GreaterThanOrEqual:
+                value: 0
+
 AppBundle\Entity\User:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: email
@@ -22,14 +33,18 @@ AppBundle\Entity\User:
         email:
             - NotBlank: ~
             - Email: ~
+        plainPassword:
+            - NotBlank: { groups: [New, FullUpdate] }
+            - Type: string
+            - Length:
+                min: 4
+                max: 50
 
-AppBundle\Entity\SportCourt:
+AppBundle\Entity\Credentials:
     properties:
-        type:
-            - NotNull: ~
-            - Choice:
-                choices: [basketball, football]
-        nbrSeats:
-            - Type: integer
-            - GreaterThanOrEqual:
-                value: 0
+        login:
+            - NotBlank: ~
+            - Type: string
+        password:
+            - NotBlank: ~
+            - Type: string

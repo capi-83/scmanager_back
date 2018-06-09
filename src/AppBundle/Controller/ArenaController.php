@@ -44,7 +44,7 @@ class ArenaController extends Controller
 			->find($id);
 
 		if (empty($arena)) {
-			return View::create(['message' => 'Arena not found'], Response::HTTP_NOT_FOUND);
+			throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Arena not found');
 		}
 
 		return $arena;
@@ -170,7 +170,7 @@ class ArenaController extends Controller
 			->find($request->get('id'));
 
 		if (empty($arena)) {
-			return View::create(['message' => 'Arena not found'], Response::HTTP_NOT_FOUND);
+			throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Arena not found');
 		}
 
 		$form = $this->createForm(ArenaType::class, $arena);
