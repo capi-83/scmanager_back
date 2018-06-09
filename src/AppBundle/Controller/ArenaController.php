@@ -10,12 +10,12 @@
 namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
-use \FOS\RestBundle\View\View as view;
+use FOS\RestBundle\Controller\Annotations\QueryParam;
+use FOS\RestBundle\Request\ParamFetcher;
 
 
 use AppBundle\Form\Type\ArenaType;
@@ -28,20 +28,18 @@ use AppBundle\Entity\Arena;
 class ArenaController extends Controller
 {
 	/**
-	 * @param $id int
 	 * @param $request Request
-	 *
 	 * @Rest\View(serializerGroups={"arena"})
 	 * @Rest\Get("/arenas/{id}")
 	 *
 	 * @return arena
 	 */
-	public function getArenaAction($id, Request $request)
+	public function getArenaAction( Request $request)
 	{
 		/* @var $place Place */
 		$arena = $this->get('doctrine.orm.entity_manager')
 			->getRepository('AppBundle:Arena')
-			->find($id);
+			->find($request->get('id'));
 
 		if (empty($arena)) {
 			throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Arena not found');
@@ -54,20 +52,43 @@ class ArenaController extends Controller
 	/**
 	 *
 	 * @param $request Request
+	 * @param $paramFetcher ParamFetcher
+	 *
 	 *
 	 * @Rest\View(serializerGroups={"arena"})
 	 * @Rest\Get("/arenas")
+	 * @QueryParam(name="offset", requirements="\d+", default="", description="Index de début de la pagination")
+	 * @QueryParam(name="limit", requirements="\d+", default="", description="nbr de résultat")
+	 * @QueryParam(name="sort", requirements="(asc|desc)", nullable=true, description="Ordre de tri (basé sur le nom)")
 	 *
 	 * @return array arena
 	 */
-	public function getArenasAction(Request $request)
+	public function getArenasAction(Request $request, ParamFetcher $paramFetcher)
 	{
-		/* @var $arenas Arena[] */
-		$arenas = $this->get('doctrine.orm.entity_manager')
-			->getRepository('AppBundle:Arena')
-			->findAll();
+		$offset = $paramFetcher->get('offset');
+		$limit = $paramFetcher->get('limit');
+		$sort = $paramFetcher->get('sort');
 
-		return $arenas;
+		$qb = $this->get('doctrine.orm.entity_manager')->createQueryBuilder();
+
+		$qb->select('a')
+			->from('AppBundle:Arena', 'a');
+
+		if ($offset != "") {
+			$qb->setFirstResult($offset);
+		}
+
+		if ($limit != "") {
+			$qb->setMaxResults($limit);
+		}
+
+		if (in_array($sort, ['asc', 'desc'])) {
+			$qb->orderBy('p.name', $sort);
+		}
+
+		$places = $qb->getQuery()->getResult();
+
+		return $places;
 	}
 
 	/**
