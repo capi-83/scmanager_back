@@ -1,0 +1,11 @@
+AppBundle\Entity\Arena:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['arena', 'sportcourt']
+        name:
+            groups: ['arena', 'sportcourt']
+        address:
+            groups: ['arena', 'sportcourt']
+        sportCourts:
+            groups: ['arena']

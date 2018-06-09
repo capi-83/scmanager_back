@@ -1,0 +1,12 @@
+AppBundle\Entity\SportCourt:
+    exclusion_policy: none
+    properties:
+        id:
+            groups: ['arena', 'sportcourt']
+        type:
+            groups: ['arena', 'sportcourt']
+        nbrSeats:
+            groups: ['arena', 'sportcourt']
+        arena:
+            groups: ['sportcourt']
+

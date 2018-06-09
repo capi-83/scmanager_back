@@ -6,7 +6,8 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
+    locale: fr
+    jms_serializer.camel_case_naming_strategy.class: JMS\Serializer\Naming\IdenticalPropertyNamingStrategy
 
 framework:
     #esi: ~
@@ -31,7 +32,7 @@ framework:
     php_errors:
         log: true
     serializer:
-            enabled: true
+            enabled: false
 
 # Twig Configuration
 twig:
@@ -69,6 +70,8 @@ swiftmailer:
     spool: { type: memory }
 
 fos_rest:
+    serializer:
+        serialize_null:  true
     routing_loader:
         include_format: false
     view:
@@ -88,3 +91,8 @@ fos_rest:
             'Symfony\Component\HttpKernel\Exception\HttpException' : true
         codes:
             'Symfony\Component\Security\Core\Exception\BadCredentialsException': 401
+jms_serializer:
+    handlers:
+        datetime:
+            default_format: "Y-m-d\\TH:i:sP"
+            default_timezone: "UTC"

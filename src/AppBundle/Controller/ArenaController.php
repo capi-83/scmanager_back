@@ -83,7 +83,7 @@ class ArenaController extends Controller
 		}
 
 		if (in_array($sort, ['asc', 'desc'])) {
-			$qb->orderBy('p.name', $sort);
+			$qb->orderBy('a.name', $sort);
 		}
 
 		$places = $qb->getQuery()->getResult();
