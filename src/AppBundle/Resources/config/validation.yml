@@ -8,6 +8,8 @@ AppBundle\Entity\Arena:
         address:
             - NotBlank: ~
             - Type: string
+        sportCourts:
+            - Valid: ~
 
 AppBundle\Entity\SportCourt:
     properties:

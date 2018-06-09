@@ -90,6 +90,10 @@ class ArenaController extends Controller
 
 		if ($form->isValid()) {
 			$em = $this->get('doctrine.orm.entity_manager');
+			foreach ($arena->getSportCourts() as $sportCourt) {
+				$sportCourt->setArena($arena);
+				$em->persist($sportCourt);
+			}
 			$em->persist($arena);
 			$em->flush();
 			return $arena;

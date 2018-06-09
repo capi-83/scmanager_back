@@ -10,6 +10,7 @@
 namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -27,6 +28,11 @@ class ArenaType extends AbstractType
 	{
 		$builder->add('name');
 		$builder->add('address');
+		$builder->add('sportCourts', CollectionType::class, [
+			'entry_type' => SportCourtType::class,
+			'allow_add' => true,
+			'error_bubbling' => false,
+		]);
 	}
 
 	/**

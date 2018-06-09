@@ -89,6 +89,7 @@ class Arena
 	 */
 	public function getSportCourts()
 	{
+		var_dump('ici');
 		return $this->sportCourts;
 	}
 
