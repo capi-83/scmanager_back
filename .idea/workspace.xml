@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a1686b0a-2ff8-4826-b506-69e89bdeb493" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/AppBundle/Form/Validator/Constraint/SportCourtTypeUnique.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/AppBundle/Form/Validator/Constraint/SportCourtTypeUniqueValidator.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Controller/ArenaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Controller/ArenaController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Entity/Arena.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Entity/Arena.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Form/Type/ArenaType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Form/Type/ArenaType.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppBundle/Resources/config/validation.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/config/validation.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,7 +23,7 @@
         <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/Arena.php">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret line="21" column="7" lean-forward="true" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
+              <caret line="21" column="7" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
               <folding>
                 <element signature="e#6#86#0#PHP" expanded="true" />
                 <element signature="e#117#149#0#PHP" expanded="true" />
@@ -49,13 +48,34 @@
       <file leaf-file-name="validation.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/AppBundle/Resources/config/validation.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
+            <state relative-caret-position="26">
+              <caret line="12" column="70" selection-start-line="12" selection-start-column="70" selection-end-line="12" selection-end-column="70" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ArenaType.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SportCourtTypeUnique.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/AppBundle/Form/Validator/Constraint/SportCourtTypeUnique.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="256">
+              <caret line="21" column="57" selection-start-line="21" selection-start-column="57" selection-end-line="21" selection-end-column="57" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SportCourtTypeUniqueValidator.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/AppBundle/Form/Validator/Constraint/SportCourtTypeUniqueValidator.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="192">
+              <caret line="17" column="64" selection-start-line="17" selection-start-column="64" selection-end-line="17" selection-end-column="64" />
+              <folding>
+                <element signature="e#136#179#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ArenaType.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/AppBundle/Form/Type/ArenaType.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="96">
@@ -115,8 +135,10 @@
         <option value="$PROJECT_DIR$/src/AppBundle/Controller/AuthTokenController.php" />
         <option value="$PROJECT_DIR$/src/AppBundle/Controller/ArenaController.php" />
         <option value="$PROJECT_DIR$/src/AppBundle/Entity/Arena.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Resources/config/validation.yml" />
         <option value="$PROJECT_DIR$/src/AppBundle/Form/Type/ArenaType.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Resources/config/validation.yml" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Form/Validator/Constraint/SportCourtTypeUniqueValidator.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Form/Validator/Constraint/SportCourtTypeUnique.php" />
       </list>
     </option>
   </component>
@@ -200,17 +222,6 @@
             <path>
               <item name="scmanager_back" type="b2602c69:ProjectViewProjectNode" />
               <item name="scmanager_back" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="scmanager_back" type="b2602c69:ProjectViewProjectNode" />
-              <item name="scmanager_back" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="scmanager_back" type="b2602c69:ProjectViewProjectNode" />
-              <item name="scmanager_back" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -246,7 +257,16 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="AppBundle" type="462c0819:PsiDirectoryNode" />
               <item name="Form" type="462c0819:PsiDirectoryNode" />
-              <item name="Type" type="462c0819:PsiDirectoryNode" />
+              <item name="Validator" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="scmanager_back" type="b2602c69:ProjectViewProjectNode" />
+              <item name="scmanager_back" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="AppBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="Form" type="462c0819:PsiDirectoryNode" />
+              <item name="Validator" type="462c0819:PsiDirectoryNode" />
+              <item name="Constraint" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="scmanager_back" type="b2602c69:ProjectViewProjectNode" />
@@ -318,12 +338,12 @@
       <workItem from="1528399211605" duration="3485000" />
       <workItem from="1528402770264" duration="12797000" />
       <workItem from="1528455055368" duration="4541000" />
-      <workItem from="1528474717942" duration="15262000" />
+      <workItem from="1528474717942" duration="16680000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36085000" />
+    <option name="totallyTimeSpent" value="37503000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-4" width="1920" height="1084" extended-state="6" />
@@ -361,20 +381,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/SportCourt.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="37" column="23" selection-start-line="37" selection-start-column="14" selection-end-line="37" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Resources/config/validation.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="34" column="17" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AppBundle/Form/Type/SportCourtType.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="448">
@@ -743,17 +749,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Resources/config/validation.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/Arena.php">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret line="21" column="7" lean-forward="true" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
+          <caret line="21" column="7" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
           <folding>
             <element signature="e#6#86#0#PHP" expanded="true" />
             <element signature="e#117#149#0#PHP" expanded="true" />
@@ -776,6 +775,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="96">
           <caret line="12" column="62" selection-start-line="12" selection-start-column="62" selection-end-line="12" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Resources/config/validation.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="26">
+          <caret line="12" column="70" selection-start-line="12" selection-start-column="70" selection-end-line="12" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Form/Validator/Constraint/SportCourtTypeUniqueValidator.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="17" column="64" selection-start-line="17" selection-start-column="64" selection-end-line="17" selection-end-column="64" />
+          <folding>
+            <element signature="e#136#179#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Form/Validator/Constraint/SportCourtTypeUnique.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="21" column="57" selection-start-line="21" selection-start-column="57" selection-end-line="21" selection-end-column="57" />
         </state>
       </provider>
     </entry>

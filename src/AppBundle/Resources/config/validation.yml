@@ -10,6 +10,7 @@ AppBundle\Entity\Arena:
             - Type: string
         sportCourts:
             - Valid: ~
+            - AppBundle\Form\Validator\Constraint\SportCourtTypeUnique: ~
 
 AppBundle\Entity\SportCourt:
     properties:
