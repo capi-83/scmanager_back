@@ -8,9 +8,8 @@
 
 namespace AppBundle\Controller\Arena;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Controller\DataOutputController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -23,7 +22,7 @@ use AppBundle\Entity\SportCourt;
  * Class SportCourtController
  * @package AppBundle\Controller\Arena
  */
-class SportCourtController extends Controller
+class SportCourtController extends DataOutputController
 {
 	/**
 	 *
@@ -45,7 +44,7 @@ class SportCourtController extends Controller
 			return $this->sportCourtNotFound();
 		}
 
-		return $arena->getSportCourts();
+		return $this->output($arena->getSportCourts());
 	}
 
 	/**
@@ -82,9 +81,9 @@ class SportCourtController extends Controller
 			$em = $this->get('doctrine.orm.entity_manager');
 			$em->persist($sportCourt);
 			$em->flush();
-			return $sportCourt;
+			return $this->output($sportCourt);
 		} else {
-			return $form;
+			return $this->output($form);
 		}
 	}
 
