@@ -9,16 +9,12 @@
 
 namespace AppBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
-use \FOS\RestBundle\View\View as view;
 
 use AppBundle\Form\Type\UserType;
 use AppBundle\Entity\User;
@@ -27,7 +23,7 @@ use AppBundle\Entity\User;
  * Class UserController
  * @package AppBundle\Controller
  */
-class UserController extends Controller
+class UserController extends DataOutputController
 {
 	/**
 	 * @param $request Request
@@ -49,7 +45,7 @@ class UserController extends Controller
 			$this->userNotFound();
 		}
 
-		return $user;
+		return $this->output($user);
 	}
 
 	/**
@@ -68,7 +64,7 @@ class UserController extends Controller
 			->getRepository('AppBundle:User')
 			->findAll();
 
-		return $users;
+		return $this->output($users);
 	}
 
 	/**
@@ -96,9 +92,9 @@ class UserController extends Controller
 			$em = $this->get('doctrine.orm.entity_manager');
 			$em->persist($user);
 			$em->flush();
-			return $user;
+			return $this->output($user);
 		} else {
-			return $form;
+			return $this->output($form);
 		}
 	}
 
@@ -122,6 +118,7 @@ class UserController extends Controller
 			$em->remove($user);
 			$em->flush();
 		}
+		return $this->output();
 	}
 
 	/**
@@ -192,9 +189,9 @@ class UserController extends Controller
 			$em = $this->get('doctrine.orm.entity_manager');
 			$em->persist($user);
 			$em->flush();
-			return $user;
+			return $this->output($user);
 		} else {
-			return $form;
+			return $this->output($form);
 		}
 	}
 

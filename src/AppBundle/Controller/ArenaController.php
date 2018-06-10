@@ -25,7 +25,7 @@ use AppBundle\Entity\Arena;
  * Class ArenaController
  * @package AppBundle\Controller
  */
-class ArenaController extends Controller
+class ArenaController extends  DataOutputController
 {
 	/**
 	 * @param $request Request
@@ -45,7 +45,7 @@ class ArenaController extends Controller
 			throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Arena not found');
 		}
 
-		return $arena;
+		return $this->output($arena);
 	}
 
 
@@ -86,9 +86,9 @@ class ArenaController extends Controller
 			$qb->orderBy('a.name', $sort);
 		}
 
-		$places = $qb->getQuery()->getResult();
+		$arenas = $qb->getQuery()->getResult();
 
-		return $places;
+		return $this->output($arenas);
 	}
 
 	/**

@@ -10,8 +10,6 @@
 namespace AppBundle\Controller;
 
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -27,7 +25,7 @@ use AppBundle\Entity\Credentials;
  * Class AuthTokenController
  * @package AppBundle\Controller
  */
-class AuthTokenController extends Controller
+class AuthTokenController extends  DataOutputController
 {
 	/**
 	 * @param $request Request
@@ -74,7 +72,7 @@ class AuthTokenController extends Controller
 		$em->persist($authToken);
 		$em->flush();
 
-		return $authToken;
+		return $this->output($authToken);
 	}
 
 	/**

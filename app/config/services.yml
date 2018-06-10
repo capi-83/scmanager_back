@@ -53,3 +53,12 @@ services:
         arguments: ["@security.http_utils"]
         public:    false
 
+    #serializer_listener.application:
+    #    class: AppBundle\Serializer\Listener\ApplicationListener
+    #    tags:
+    #       - { name: jms_serializer.event_subscriber }
+
+    #serializer_handler.article:
+    #        class: AppBundle\Serializer\Handler\ApplicationHandler
+    #        tags:
+    #            - { name: jms_serializer.subscribing_handler }
