@@ -144,4 +144,17 @@ class User implements UserInterface
 		$this->setPlainPassword(null);
 	}
 
+	public function getFormatedData()
+	{
+		return [
+			'type'=>'user',
+			'id'=>$this->getId(),
+			'attributes'=>
+				[
+					'firstname' => $this->getFirstname(),
+					'lastname'	=> $this->getLastname(),
+					'email'		=> $this->getEmail(),
+				]
+		];
+	}
 }

@@ -45,7 +45,8 @@ class AuthTokenController extends  DataOutputController
 		$form->submit($request->request->all());
 
 		if (!$form->isValid()) {
-			return $form;
+			$this->setErrors(['status'=>Response::HTTP_UNPROCESSABLE_ENTITY,'message' => 'Unprocessable entity']);
+			return $this->output();
 		}
 
 		$em = $this->get('doctrine.orm.entity_manager');
@@ -54,14 +55,16 @@ class AuthTokenController extends  DataOutputController
 			->findOneByEmail($credentials->getLogin());
 
 		if (!$user) { // L'utilisateur n'existe pas
-			return $this->invalidCredentials();
+			$this->setErrors(['status'=>Response::HTTP_BAD_REQUEST,'message' => 'Invalid credentials']);
+			return $this->invalidCredentials($this->output());
 		}
 
 		$encoder = $this->get('security.password_encoder');
 		$isPasswordValid = $encoder->isPasswordValid($user, $credentials->getPassword());
 
 		if (!$isPasswordValid) {
-			return $this->invalidCredentials();
+			$this->setErrors(['status'=>Response::HTTP_BAD_REQUEST,'message' => 'Invalid credentials']);
+			return $this->invalidCredentials($this->output());
 		}
 
 		$authToken = new AuthToken();
@@ -72,7 +75,10 @@ class AuthTokenController extends  DataOutputController
 		$em->persist($authToken);
 		$em->flush();
 
-		return $this->output($authToken);
+		$this->setIncluded($authToken->getIncluded());
+		$this->setData($authToken->getFormatedData());
+
+		return $this->output();
 	}
 
 	/**
@@ -92,12 +98,13 @@ class AuthTokenController extends  DataOutputController
 			$em->remove($authToken);
 			$em->flush();
 		} else {
-			throw new \Symfony\Component\HttpKernel\Exception\BadRequestHttpException();
+			$this->setErrors($this->invalidCredentials());
+			return $this->output();
 		}
 	}
 
-	private function invalidCredentials()
+	private function invalidCredentials($output)
 	{
-		return View::create(['message' => 'Invalid credentials'], Response::HTTP_BAD_REQUEST);
+		return View::create([$output], Response::HTTP_BAD_REQUEST);
 	}
 }

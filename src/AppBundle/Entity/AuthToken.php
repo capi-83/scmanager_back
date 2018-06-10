@@ -83,4 +83,31 @@ class AuthToken
 	{
 		$this->user = $user;
 	}
+
+	public function getFormatedData()
+	{
+		return [
+				'type'=>'authtoken',
+				'id'=>$this->getId(),
+				'attributes'=>
+					[
+					'value'		=> $this->getValue(),
+					'createdAt'	=> $this->getCreatedAt()
+					],
+				'relationship' => $this->getRelationship()
+				];
+	}
+
+	public function getRelationship()
+	{
+		return [
+				'type'	=> 'user',
+				'id'	=> $this->getUser()->getId(),
+				];
+	}
+
+	public function getIncluded()
+	{
+		return $this->getUser()->getFormatedData();
+	}
 }
