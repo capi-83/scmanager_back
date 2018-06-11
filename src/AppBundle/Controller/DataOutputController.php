@@ -9,7 +9,10 @@
 namespace AppBundle\Controller;
 
 
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+use \FOS\RestBundle\View\View as view;
 
 class DataOutputController extends Controller
 {
@@ -18,6 +21,9 @@ class DataOutputController extends Controller
 	private $errors;
 	private $included;
 
+	/**
+	 * @return array
+	 */
 	protected function output(){
 
 		$meta		= $this->getMeta();
@@ -38,6 +44,30 @@ class DataOutputController extends Controller
 		if($included) $result['included'] = $included;
 
 		return $result;
+	}
+
+	/**
+	 * @param int $response
+	 * @return view
+	 */
+	protected function invalidResponse( $response = Response::HTTP_BAD_REQUEST )
+	{
+		return View::create($this->output(),$response );
+	}
+
+	/**
+	 * @param $form
+	 * @return mixed
+	 */
+	protected function formatFormErrors($form)
+	{
+		$res = [];
+		var_dump(count($form));
+		foreach ($form->getErrors() as $fkey => $fval)
+		{
+			//print_r($f);
+		}
+		return $form->getErrors();
 	}
 
 	/**
@@ -65,11 +95,20 @@ class DataOutputController extends Controller
 	}
 
 	/**
+	 * @param $status int
+	 * @param $message string
 	 * @param mixed $errors
 	 */
-	public function setErrors($errors)
+	public function setErrors($status ,$message, $errors = array())
 	{
-		$this->errors = $errors;
+		$result = [
+					'status'		=> $status,
+					'message'		=> $message
+				];
+
+		if($errors) $result['informations']	= $errors;
+
+		$this->errors = $result;
 	}
 
 	/**

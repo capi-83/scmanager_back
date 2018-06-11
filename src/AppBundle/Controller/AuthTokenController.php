@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
-use \FOS\RestBundle\View\View as view;
 
 use AppBundle\Form\Type\CredentialsType;
 use AppBundle\Entity\AuthToken;
@@ -30,7 +29,7 @@ class AuthTokenController extends  DataOutputController
 	/**
 	 * @param $request Request
 	 *
-	 * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"auth-token"})
+	 * @Rest\View(statusCode=Response::HTTP_CREATED)
 	 * @Rest\Post("/auth-tokens")
 	 *
 	 * @throws \Exception
@@ -45,26 +44,27 @@ class AuthTokenController extends  DataOutputController
 		$form->submit($request->request->all());
 
 		if (!$form->isValid()) {
-			$this->setErrors(['status'=>Response::HTTP_UNPROCESSABLE_ENTITY,'message' => 'Unprocessable entity']);
-			return $this->output();
+			$this->setErrors(Response::HTTP_UNPROCESSABLE_ENTITY,'Unprocessable entity',$this->formatFormErrors($form));
+			return $this->invalidResponse(Response::HTTP_UNPROCESSABLE_ENTITY);
 		}
 
 		$em = $this->get('doctrine.orm.entity_manager');
 
-		$user = $em->getRepository('AppBundle:User')
-			->findOneByEmail($credentials->getLogin());
+		$user =  $em->getRepository('AppBundle:User')
+					->findOneByEmail($credentials->getLogin());
 
-		if (!$user) { // L'utilisateur n'existe pas
-			$this->setErrors(['status'=>Response::HTTP_BAD_REQUEST,'message' => 'Invalid credentials']);
-			return $this->invalidCredentials($this->output());
+		// L'utilisateur n'existe pas
+		if (!$user) {
+			$this->setErrors(Response::HTTP_BAD_REQUEST,'Invalid credentials');
+			return $this->invalidResponse();
 		}
 
 		$encoder = $this->get('security.password_encoder');
 		$isPasswordValid = $encoder->isPasswordValid($user, $credentials->getPassword());
 
 		if (!$isPasswordValid) {
-			$this->setErrors(['status'=>Response::HTTP_BAD_REQUEST,'message' => 'Invalid credentials']);
-			return $this->invalidCredentials($this->output());
+			$this->setErrors(Response::HTTP_BAD_REQUEST,'Invalid credentials');
+			return $this->invalidResponse();
 		}
 
 		$authToken = new AuthToken();
@@ -82,15 +82,21 @@ class AuthTokenController extends  DataOutputController
 	}
 
 	/**
+	 * @param $request Request
+	 *
 	 * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
 	 * @Rest\Delete("/auth-tokens/{id}")
+	 *
+	 * @throws \Exception
+	 *
+	 * @return array
 	 */
 	public function removeAuthTokenAction(Request $request)
 	{
 		$em = $this->get('doctrine.orm.entity_manager');
+
 		$authToken = $em->getRepository('AppBundle:AuthToken')
-			->find($request->get('id'));
-		/* @var $authToken AuthToken */
+						->find($request->get('id'));
 
 		$connectedUser = $this->get('security.token_storage')->getToken()->getUser();
 
@@ -98,13 +104,8 @@ class AuthTokenController extends  DataOutputController
 			$em->remove($authToken);
 			$em->flush();
 		} else {
-			$this->setErrors($this->invalidCredentials());
-			return $this->output();
+			$this->setErrors(Response::HTTP_BAD_REQUEST,'Invalid credentials');
+			return $this->invalidResponse();
 		}
-	}
-
-	private function invalidCredentials($output)
-	{
-		return View::create([$output], Response::HTTP_BAD_REQUEST);
 	}
 }
