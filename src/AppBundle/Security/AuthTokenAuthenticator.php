@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
@@ -26,6 +25,8 @@ class AuthTokenAuthenticator implements SimplePreAuthenticatorInterface, Authent
 	 */
 	const TOKEN_VALIDITY_DURATION = 7200;
 
+	const DISABLED_AUTH = true;
+
 	protected $httpUtils;
 
 	public function __construct(HttpUtils $httpUtils)
@@ -35,6 +36,7 @@ class AuthTokenAuthenticator implements SimplePreAuthenticatorInterface, Authent
 
 	public function createToken(Request $request, $providerKey)
 	{
+		if(self::DISABLED_AUTH) return;
 
 		$targetUrl = '/auth-tokens';
 		// Si la requête est une création de token, aucune vérification n'est effectuée

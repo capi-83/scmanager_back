@@ -9,8 +9,6 @@
 
 namespace AppBundle\Controller;
 
-
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -26,12 +24,34 @@ use AppBundle\Entity\User;
 class UserController extends DataOutputController
 {
 	/**
+	 *
+	 * @param $request Request
+	 *
+	 * @Rest\View( serializerGroups={"userall"})
+	 * @Rest\Get("/users")
+	 *
+	 * @return array users
+	 */
+	public function getUsersAction(Request $request)
+	{
+		/* @var $users User[] */
+		$users = $this->get('doctrine.orm.entity_manager')
+			->getRepository('AppBundle:User')
+			->findAll();
+		$users = new User($users);
+
+		$this->setData($users->getFormatedData());
+		return $this->output();
+	}
+
+
+	/**
 	 * @param $request Request
 	 *
 	 * @Rest\View(serializerGroups={"userall"})
 	 * @Rest\Get("/users/{id}")
 	 *
-	 * @return user
+	 * @return array
 	 */
 	public function getUserAction(Request $request)
 	{
@@ -48,24 +68,7 @@ class UserController extends DataOutputController
 		return $this->output($user);
 	}
 
-	/**
-	 *
-	 * @param $request Request
-	 *
-	 * @Rest\View( serializerGroups={"userall"})
-	 * @Rest\Get("/users")
-	 *
-	 * @return array users
-	 */
-	public function getUsersAction(Request $request)
-	{
-		/* @var $users User[] */
-		$users = $this->get('doctrine.orm.entity_manager')
-			->getRepository('AppBundle:User')
-			->findAll();
 
-		return $this->output($users);
-	}
 
 	/**
 	 * @param $request Request

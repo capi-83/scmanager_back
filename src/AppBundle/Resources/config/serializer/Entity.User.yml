@@ -9,5 +9,3 @@ AppBundle\Entity\User:
             groups: ['user','userall', 'auth-token']
         email:
             groups: ['user','userall', 'auth-token']
-        password:
-            groups: ['userall']

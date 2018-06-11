@@ -26,6 +26,7 @@ use AppBundle\Entity\Credentials;
  */
 class AuthTokenController extends  DataOutputController
 {
+
 	/**
 	 * @param $request Request
 	 *
@@ -38,6 +39,7 @@ class AuthTokenController extends  DataOutputController
 	 */
 	public function postAuthTokensAction(Request $request)
 	{
+
 		$credentials = new Credentials();
 		$form = $this->createForm(CredentialsType::class, $credentials);
 

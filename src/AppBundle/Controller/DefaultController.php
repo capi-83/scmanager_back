@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends DataOutputController
@@ -13,7 +13,8 @@ class DefaultController extends DataOutputController
      */
     public function indexAction(Request $request)
     {
-        // replace this example code with whatever you need
-        return $this->output();
+
+		$this->setErrors(Response::HTTP_UNPROCESSABLE_ENTITY,'Unprocessable entity');
+		return $this->invalidResponse(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }
